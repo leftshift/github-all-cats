@@ -1,21 +1,21 @@
 chrome.browserAction.onClicked.addListener(function (tab) {
-  var showingRealNames = localStorage['showingRealNames'];
-  showingRealNames = showingRealNames && JSON.parse(showingRealNames);
-  if (showingRealNames === undefined) {
-    showingRealNames = true;
+  var showingCatNames = localStorage['showingCatNames'];
+  showingCatNames = showingCatNames && JSON.parse(showingCatNames);
+  if (showingCatNames === undefined) {
+    showingCatNames = true;
   }
-  showingRealNames = !showingRealNames;
-  localStorage['showingRealNames'] = JSON.stringify(showingRealNames);
-  chrome.tabs.sendMessage(tab.id, {action: 'toggle', showingRealNames: showingRealNames });
+  showingCatNames = !showingCatNames;
+  localStorage['showingCatNames'] = JSON.stringify(showingCatNames);
+  chrome.tabs.sendMessage(tab.id, {action: 'toggle', showingCatNames: showingCatNames });
 });
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.action == "get-showingRealNames") {
-      var showingRealNames = localStorage['showingRealNames'];
-      showingRealNames = showingRealNames && JSON.parse(showingRealNames);
-      if (showingRealNames === undefined) {
-        showingRealNames = true;
+    if (request.action == "get-showingCatNames") {
+      var showingCatNames = localStorage['showingCatNames'];
+      showingCatNames = showingCatNames && JSON.parse(showingCatNames);
+      if (showingCatNames === undefined) {
+        showingCatNames = true;
       }
-      sendResponse({showingRealNames: showingRealNames});
+      sendResponse({showingCatNames: showingCatNames});
     }
 });

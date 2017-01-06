@@ -1,21 +1,14 @@
-# GitHub Real Names
+# GitHub All Cats
 
-Github Real Names is a Google chrome extension that adds a button to toggle showing real names instead of usernames on GitHub.
+Everyone is a cat!
 
-Download it from the [chrome store](https://chrome.google.com/webstore/detail/github-real-names/edfnfekndkopmlejjmlplpceflfldoae?hl=en-GB).
+Github All Cats is a Google chrome extension that adds a button to toggle showing github usernames or randomly chosen adjectives and cat names (and soon images). This helps you anonymize the names of other github users and makes you judge their code and not their name or looks.
 
+Based on [github-real-names](https://github.com/ForbesLindesay/github-real-names), but does quite the opposite.
 
 ## How to build
 
-To build, run:
-
-```js
-npm install
-npm install browserify -g
-browserify index.js > contentscript.js
-```
-
-in this repository.
+No building required.
 
 ## LICENSE
 
