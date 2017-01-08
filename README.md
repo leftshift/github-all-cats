@@ -12,6 +12,9 @@ Based on [github-real-names](https://github.com/ForbesLindesay/github-real-names
 
 No building required.
 
+## Acknowledgements
+List of cat names from [wikipedia](https://en.wikipedia.org/wiki/List_of_cat_breeds)
+
 ## LICENSE
 
 MIT
