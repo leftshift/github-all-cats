@@ -212,6 +212,8 @@ var catNames = {
 
 };
 
+var thisUser = getMetaContents('user-login');
+
 function getMetaContents(mn){
     var m = document.getElementsByTagName('meta');
     for(var i in m){
@@ -223,7 +225,6 @@ function getMetaContents(mn){
 
 function generateCatName(username) {
   if (catNames[username]) return;
-  var thisUser = getMetaContents('user-login');
   if (username == thisUser) { // the current user shouldn't become a cat
     catNames[username] = thisUser;
     return;
@@ -237,7 +238,6 @@ function generateCatName(username) {
 chrome.runtime.sendMessage({action: "get-showingCatNames"}, function(response) {
   showingCatNames = response.showingCatNames;
   updateWrapper();
-  setInterval(updateWrapper, 1000);
 });
 
 function updateList(list, filter, getUsername, getHref, shouldAt) {
@@ -319,6 +319,7 @@ function updateWrapper() {
     catNames = item.catNames || {};
     update();
     chrome.storage.local.set({'catNames': catNames})
+    setTimeout(updateWrapper, 1000);
   })
 }
 
