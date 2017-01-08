@@ -225,14 +225,9 @@ function getMetaContents(mn){
 
 function generateCatName(username) {
   if (catNames[username]) return;
-  if (username == thisUser) { // the current user shouldn't become a cat
-    catNames[username] = thisUser;
-    return;
-  }
   var breed = breeds[Math.floor(Math.random() * breeds.length)];
   var adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-  catNames[username] = adjective + " " + breed;
-  // update(); // i don't think this is needed?
+  catNames[username] = [adjective, breed];
 }
 
 chrome.runtime.sendMessage({action: "get-showingCatNames"}, function(response) {
@@ -244,12 +239,32 @@ function updateList(list, filter, getUsername, getHref, shouldAt) {
   for (var i = 0; i < list.length; i++) {
     if (filter(list[i])) {
       var username = getUsername(list[i]);
-      generateCatName(username);
-      if (showingCatNames) {
-        list[i].textContent = (shouldAt && catNames[username] === username ? '@' : '') + catNames[username];
-      } else {
-        list[i].textContent = (shouldAt ? '@' : '') + username;
+      if (username == thisUser) { // don't make the logged in user a cat
+        continue;
       }
+      generateCatName(username);
+      var node = list[i]
+
+      if(node.tagName.toUpperCase() === "IMG") {
+        if (showingCatNames) {
+          if ( !node.hasAttribute('data-original-src')) {
+            node.setAttribute('data-original-src', node.getAttribute('src')) // store url for profile picture
+          }
+          node.setAttribute('src', chrome.extension.getURL('img/' + catNames[username][1])) // replace with picure of cat
+        } else {
+          if (node.hasAttribute('data-original-src')) { // this is false if the picture hasn't been replaced before
+            node.setAttribute('src', node.getAttribute('data-original-src')) // restore original profile picture
+          }
+        }
+      } else {
+        if (showingCatNames) {
+          node.textContent = (shouldAt && catNames[username][0] === username ? '@' : '') + catNames[username].join(' ');
+        } else {
+          node.textContent = (shouldAt ? '@' : '') + username;
+        }
+      }
+
+
     }
   }
 }
@@ -310,6 +325,14 @@ function update() {
     return /\/([^\/]+)$/.exec(author.getAttribute('href'))[1];
   }, function (author) {
     return author.getAttribute('href');
+  });
+
+  updateList(document.querySelectorAll('img'), function (image) {
+    return image.hasAttribute('alt');
+  }, function (image) {
+    return image.getAttribute('alt').slice(1); // remove '@'
+  }, function (image) {
+    return null;
   });
 
 }

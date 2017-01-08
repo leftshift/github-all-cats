@@ -30,5 +30,8 @@
       "all_frames" : false
     }
   ],
+  "web_accessible_resources": [
+    "img/*"
+  ],
   "manifest_version": 2
 }
