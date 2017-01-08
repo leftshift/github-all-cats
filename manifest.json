@@ -9,7 +9,8 @@
   "version": "1.2.2",
   "permissions": [
     "activeTab",
-    "tabs", "https://github.com/*"
+    "tabs", "https://github.com/*",
+    "storage"
   ],
   "background": {
     "scripts": ["background.js"],

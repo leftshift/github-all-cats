@@ -19,3 +19,5 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
       sendResponse({showingCatNames: showingCatNames});
     }
 });
+
+chrome.storage.local.clear();

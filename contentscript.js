@@ -231,13 +231,13 @@ function generateCatName(username) {
   var breed = breeds[Math.floor(Math.random() * breeds.length)];
   var adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
   catNames[username] = adjective + " " + breed;
-  update();
+  // update(); // i don't think this is needed?
 }
 
 chrome.runtime.sendMessage({action: "get-showingCatNames"}, function(response) {
   showingCatNames = response.showingCatNames;
-  update();
-  setInterval(update, 1000);
+  updateWrapper();
+  setInterval(updateWrapper, 1000);
 });
 
 function updateList(list, filter, getUsername, getHref, shouldAt) {
@@ -311,12 +311,20 @@ function update() {
   }, function (author) {
     return author.getAttribute('href');
   });
+
 }
 
-update();
+function updateWrapper() {
+  chrome.storage.local.get('catNames', function (item) {
+    catNames = item.catNames || {};
+    update();
+    chrome.storage.local.set({'catNames': catNames})
+  })
+}
+
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === 'toggle') {
     showingCatNames = message.showingCatNames;
-    update();
+    updateWrapper();
   }
 });
