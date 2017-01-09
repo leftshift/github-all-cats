@@ -9,7 +9,7 @@ var breeds = [
   "American Bobtail",
   "American Shorthair",
   "American Wirehair",
-  "Arabian Mau",
+  // "Arabian Mau",
   "Australian Mist",
   "Asian",
   "Asian Semi-longhair",
@@ -28,7 +28,7 @@ var breeds = [
   "Chantilly-Tiffany",
   "Chartreux",
   "Chausie",
-  "Cheetoh",
+  // "Cheetoh",
   "Colorpoint Shorthair",
   "Cornish Rex",
   "Cymric",
@@ -53,10 +53,10 @@ var breeds = [
   "Kurilian Bobtail",
   "Khao Manee",
   "Korat",
-  "Korean Bobtail",
-  "Korn Ja",
-  "Kurilian Bobtail",
-  "Kuril Islands Bobtail",
+  // "Korean Bobtail",
+  // "Korn Ja",
+  // "Kurilian Bobtail",
+  // "Kuril Islands Bobtail",
   "LaPerm",
   "Lykoi",
   "Maine Coon",
@@ -65,7 +65,7 @@ var breeds = [
   "Minskin",
   "Munchkin",
   "Nebelung",
-  "Napoleon",
+  // "Napoleon",
   "Norwegian Forest cat",
   "Ocicat",
   "Ojos Azules",
@@ -76,14 +76,14 @@ var breeds = [
   "Persian Cat",
   "Peterbald",
   "Pixie-bob",
-  "Raas",
+  // "Raas",
   "Ragamuffin",
   "Ragdoll",
   "Russian Blue",
-  "Russian White",
-  "Russian Black",
-  "Russian Tabby",
-  "Sam Sawet",
+  // "Russian White",
+  // "Russian Black",
+  // "Russian Tabby",
+  // "Sam Sawet",
   "Savannah",
   "Scottish Fold",
   "Selkirk Rex",
@@ -250,7 +250,7 @@ function updateList(list, filter, getUsername, getHref, shouldAt) {
           if ( !node.hasAttribute('data-original-src')) {
             node.setAttribute('data-original-src', node.getAttribute('src')) // store url for profile picture
           }
-          node.setAttribute('src', chrome.extension.getURL('img/' + catNames[username][1])) // replace with picure of cat
+          node.setAttribute('src', chrome.extension.getURL('img/' + catNames[username][1] + ".jpg")) // replace with picure of cat
         } else {
           if (node.hasAttribute('data-original-src')) { // this is false if the picture hasn't been replaced before
             node.setAttribute('src', node.getAttribute('data-original-src')) // restore original profile picture
