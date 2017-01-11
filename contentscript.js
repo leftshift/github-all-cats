@@ -1,5 +1,4 @@
 'use strict';
-
 var showingCatNames = true;
 
 var breeds = [
@@ -14,7 +13,7 @@ var breeds = [
   "Asian",
   "Asian Semi-longhair",
   "Balinese",
-  "Bambino",
+  // "Bambino",
   "Bengal",
   "Birman",
   "Bombay",
@@ -106,106 +105,105 @@ var breeds = [
   "Ukrainian Levkoy"
 ];
 
-var adjectives = [
-  "adaptable",
-  "adventurous",
-  "affable",
-  "affectionate",
-  "agreeable",
-  "ambitious",
-  "amiable",
-  "amicable",
-  "amusing",
-  "brave",
-  "bright",
-  "broad-minded",
-  "calm",
-  "careful",
-  "charming",
-  "communicative",
-  "compassionate ",
-  "conscientious",
-  "considerate",
-  "convivial",
-  "courageous",
-  "courteous",
-  "creative",
-  "decisive",
-  "determined",
-  "diligent",
-  "diplomatic",
-  "discreet",
-  "dynamic",
-  "easygoing",
-  "emotional",
-  "energetic",
-  "enthusiastic",
-  "exuberant",
-  "fair-minded",
-  "faithful",
-  "fearless",
-  "forceful",
-  "frank",
-  "friendly",
-  "funny",
-  "generous",
-  "gentle",
-  "good",
-  "gregarious",
-  "hard-working",
-  "helpful",
-  "honest",
-  "humorous",
-  "imaginative",
-  "impartial",
-  "independent",
-  "intellectual",
-  "intelligent",
-  "intuitive",
-  "inventive",
-  "kind",
-  "loving",
-  "loyal",
-  "modest",
-  "neat",
-  "nice",
-  "optimistic",
-  "passionate",
-  "patient",
-  "persistent ",
-  "pioneering",
-  "philosophical",
-  "placid",
-  "plucky",
-  "polite",
-  "powerful",
-  "practical",
-  "pro-active",
-  "quick-witted",
-  "quiet",
-  "rational",
-  "reliable",
-  "reserved",
-  "resourceful",
-  "romantic",
-  "self-confident",
-  "self-disciplined",
-  "sensible",
-  "sensitive",
-  "shy",
-  "sincere",
-  "sociable",
-  "straightforward",
-  "sympathetic",
-  "thoughtful",
-  "tidy",
-  "tough",
-  "unassuming",
-  "understanding",
-  "versatile",
-  "warmhearted",
-  "willing",
-  "witty"
+var adjectives = ['Adaptable',
+ 'Adventurous',
+ 'Affable',
+ 'Affectionate',
+ 'Agreeable',
+ 'Ambitious',
+ 'Amiable',
+ 'Amicable',
+ 'Amusing',
+ 'Brave',
+ 'Bright',
+ 'Broad-minded',
+ 'Calm',
+ 'Careful',
+ 'Charming',
+ 'Communicative',
+ 'Compassionate ',
+ 'Conscientious',
+ 'Considerate',
+ 'Convivial',
+ 'Courageous',
+ 'Courteous',
+ 'Creative',
+ 'Decisive',
+ 'Determined',
+ 'Diligent',
+ 'Diplomatic',
+ 'Discreet',
+ 'Dynamic',
+ 'Easygoing',
+ 'Emotional',
+ 'Energetic',
+ 'Enthusiastic',
+ 'Exuberant',
+ 'Fair-minded',
+ 'Faithful',
+ 'Fearless',
+ 'Forceful',
+ 'Frank',
+ 'Friendly',
+ 'Funny',
+ 'Generous',
+ 'Gentle',
+ 'Good',
+ 'Gregarious',
+ 'Hard-working',
+ 'Helpful',
+ 'Honest',
+ 'Humorous',
+ 'Imaginative',
+ 'Impartial',
+ 'Independent',
+ 'Intellectual',
+ 'Intelligent',
+ 'Intuitive',
+ 'Inventive',
+ 'Kind',
+ 'Loving',
+ 'Loyal',
+ 'Modest',
+ 'Neat',
+ 'Nice',
+ 'Optimistic',
+ 'Passionate',
+ 'Patient',
+ 'Persistent ',
+ 'Pioneering',
+ 'Philosophical',
+ 'Placid',
+ 'Plucky',
+ 'Polite',
+ 'Powerful',
+ 'Practical',
+ 'Pro-active',
+ 'Quick-witted',
+ 'Quiet',
+ 'Rational',
+ 'Reliable',
+ 'Reserved',
+ 'Resourceful',
+ 'Romantic',
+ 'Self-confident',
+ 'Self-disciplined',
+ 'Sensible',
+ 'Sensitive',
+ 'Shy',
+ 'Sincere',
+ 'Sociable',
+ 'Straightforward',
+ 'Sympathetic',
+ 'Thoughtful',
+ 'Tidy',
+ 'Tough',
+ 'Unassuming',
+ 'Understanding',
+ 'Versatile',
+ 'Warmhearted',
+ 'Willing',
+ 'Witty'
 ];
 
 var catNames = {
@@ -217,7 +215,7 @@ var thisUser = getMetaContents('user-login');
 function getMetaContents(mn){
     var m = document.getElementsByTagName('meta');
     for(var i in m){
-        if(m[i].attributes[0].nodeValue == mn){
+        if(m[i].getAttribute("name") == mn || m[i].getAttribute("property") == mn){ // because some metas have name; content, some property; content
             return m[i].content;
         }
     }
@@ -327,14 +325,50 @@ function update() {
     return author.getAttribute('href');
   });
 
-  updateList(document.querySelectorAll('img'), function (image) {
-    return image.hasAttribute('alt');
+  updateList(document.querySelectorAll('.avatar, .gravatar, .alert img, .user-profile-mini-avatar img'), function (image) {
+    if (image.hasAttribute('alt')) {
+      return image.getAttribute('alt');
+    } else {
+      return false;
+    };
   }, function (image) {
     return image.getAttribute('alt').slice(1); // remove '@'
   }, function (image) {
     return null;
   });
 
+  updateList(document.querySelectorAll('.vcard-username, .vcard-fullname, .js-user-profile-following-mini-toggle strong'), function (user) {
+    return true;
+  }, function (user) {
+    return getMetaContents('profile:username');
+  }, function (user) {
+    return null;
+  });
+
+  updateList(document.querySelectorAll('.vcard-avatar img'), function (a) {
+    return true;
+  }, function (a) {
+    return getMetaContents('profile:username');
+  }, function (a) {
+    return null;
+  })
+
+  if (getMetaContents('og:type') == "profile") { // Special handeling for user profiles
+    obscureUserPage();
+  }
+}
+
+function obscureUserPage() {
+  var details = document.querySelectorAll('.vcard-details li');
+  for (var i = 0; i < details.length; i++) {
+    if (details[i].hasAttribute("aria-label")) {
+      if (details[i].getAttribute("aria-label") == "Home location") {
+        details[i].textContent = "Cat country";
+      } else if (details[i].getAttribute("aria-label") == "Email") {
+        details[i].textContent = "hello@meow.com";
+      }
+    }
+  }
 }
 
 function updateWrapper() {

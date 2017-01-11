@@ -9,6 +9,7 @@ Github All Cats is a Google chrome extension that adds a button to toggle showin
 Based on [github-real-names](https://github.com/ForbesLindesay/github-real-names), but does quite the opposite.
 
 Picures are 460x460, that seems to be the size github uses.
+We could determine the type of page on contentscript start to differenciate profile pages
 
 ## How to build
 
