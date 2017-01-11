@@ -215,9 +215,11 @@ var thisUser = getMetaContents('user-login');
 function getMetaContents(mn){
     var m = document.getElementsByTagName('meta');
     for(var i in m){
+      if (m[i].getAttribute) { // For some reason, sometimes odd stuff is in m
         if(m[i].getAttribute("name") == mn || m[i].getAttribute("property") == mn){ // because some metas have name; content, some property; content
-            return m[i].content;
+          return m[i].content;
         }
+      }
     }
 }
 
