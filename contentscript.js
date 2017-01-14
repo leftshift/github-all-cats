@@ -327,7 +327,7 @@ function update() {
     return author.getAttribute('href');
   });
 
-  updateList(document.querySelectorAll('.avatar, .gravatar, .alert img, .user-profile-mini-avatar img'), function (image) {
+  updateList(document.querySelectorAll('.avatar, .gravatar, .alert img, .user-profile-mini-avatar img, .timeline-comment-avatar'), function (image) {
     if (image.hasAttribute('alt')) {
       return image.getAttribute('alt');
     } else {
