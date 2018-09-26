@@ -25,7 +25,10 @@
       "matches" : [
          "https://github.com/*"
       ],
-      "js" : [ "contentscript.js" ],
+      "js" : [
+          "data.js",
+          "contentscript.js"
+      ],
       "run_at" : "document_end",
       "all_frames" : false
     }
