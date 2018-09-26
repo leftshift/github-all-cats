@@ -149,6 +149,35 @@ class HovercardDescriptionMorpher extends Morpher {
         return
     }
 }
+
+class HovercardLocationMorpher extends Morpher {
+    // The Link and Image in Hovercards is already handled by
+    // ImageMorpher and LinkMorpher. This handles possible location
+    constructor() {
+        super();
+    }
+
+    selector(){
+        var selectors = [
+            ".Popover-message .ml-3 .mt-2"
+        ];
+        return document.querySelectorAll(selectors.join(", "))
+    }
+
+    toCat(node){
+        var text = node.textContent
+        if (!node.hasAttribute("data-original-text")){
+            node.setAttribute("data-original-text", text);
+        }
+
+        node.textContent = "Cardboard Box";
+    }
+
+    toHuman(node){
+        node.textContent = node.getAttribute("data-original-text");
+    }
+}
+
 function obscureUserPage() {
   var details = document.querySelectorAll('.vcard-details li');
   for (var i = 0; i < details.length; i++) {
@@ -164,6 +193,8 @@ function obscureUserPage() {
 
 var i = new ImgMorpher();
 var a = new LinkMorpher();
+var d = new HovercardDescriptionMorpher();
+var l = new HovercardLocationMorpher();
 
 function update() {
     if (!morphedOnce && !showingCatNames) {
