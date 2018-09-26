@@ -182,7 +182,7 @@ class HovercardLocationMorpher extends Morpher {
         // preserve svg
         var svg = node.getElementsByTagName('svg')[0];
 
-        node.textContent = "Cardboard Box";
+        node.textContent = " Cardboard Box";
         node.prepend(svg);
     }
 
