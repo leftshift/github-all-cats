@@ -18,11 +18,15 @@ function getMetaContents(name){
     }
 }
 
-function generateCatName(username) {
-  if (catNames[username]) return;
+function getCatName(username) {
+  var n = catNames[username];
+  if (n) {
+    return n;
+  }
   var breed = breeds[Math.floor(Math.random() * breeds.length)];
   var adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
   catNames[username] = [adjective, breed];
+  return [adjective, breed]
 }
 
 
