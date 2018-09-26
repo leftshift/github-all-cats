@@ -111,7 +111,10 @@ class LinkMorpher extends Morpher {
             "a.author[data-hovercard-user-id]",
             "a.muted-link[data-hovercard-user-id]",
             "a.user-mention",
-            ".Popover-message a.f5"
+            ".Popover-message a.f5",
+
+            ".vcard-username",
+            ".js-user-profile-following-mini-toggle strong"
         ];
         return document.querySelectorAll(selectors.join(", "))
     }
