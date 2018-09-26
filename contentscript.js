@@ -131,16 +131,14 @@ class LinkMorpher extends Morpher {
     }
 }
 
-class HovercardDescriptionMorpher extends Morpher {
-    // The Link and Image in Hovercards is already handled by
-    // ImageMorpher and LinkMorpher. This handles possible additional info
+class DescriptionMorpher extends Morpher {
     constructor() {
         super();
     }
 
     selector(){
         var selectors = [
-            ".Popover-message .ml-3 .mt-1 div"
+            ".user-profile-bio div"
         ];
         return document.querySelectorAll(selectors.join(", "))
     }
@@ -152,6 +150,25 @@ class HovercardDescriptionMorpher extends Morpher {
         }
 
         node.textContent = getDescription();
+    }
+
+    toHuman(node){
+        node.textContent = node.getAttribute("data-original-text");
+    }
+}
+
+class HovercardDescriptionMorpher extends DescriptionMorpher {
+    // The Link and Image in Hovercards is already handled by
+    // ImageMorpher and LinkMorpher. This handles possible additional info
+    constructor() {
+        super();
+    }
+
+    selector(){
+        var selectors = [
+            ".Popover-message .ml-3 .mt-1 div"
+        ];
+        return document.querySelectorAll(selectors.join(", "))
     }
 
     toHuman(node){
