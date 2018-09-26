@@ -60,7 +60,14 @@ class ImgMorpher extends Morpher {
     selector(){
         // First selector string: select non-empty alt attribute
         // Needed because this is broken for profile pictures
-        return document.querySelectorAll("img.avatar:not([alt='']), .avatar img[alt], .user-profile-mini-avatar img[alt], .Popover-message img.d-block[alt]");
+        var selectors = [
+            "img.avatar:not([alt=''])",
+            ".avatar img[alt]",
+            ".user-profile-mini-avatar img[alt]",
+            ".Popover-message img.d-block[alt]",
+            ".commits img.mr-1[alt]"
+        ];
+        return document.querySelectorAll(selectors.join(", "))
     }
 
     toCat(node) {
