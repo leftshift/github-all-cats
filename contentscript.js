@@ -179,7 +179,11 @@ class HovercardLocationMorpher extends Morpher {
             node.setAttribute("data-original-text", text);
         }
 
+        // preserve svg
+        var svg = node.getElementsByTagName('svg')[0];
+
         node.textContent = "Cardboard Box";
+        node.prepend(svg);
     }
 
     toHuman(node){
