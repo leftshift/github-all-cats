@@ -233,7 +233,7 @@ function updateWrapper() {
 var observer = new MutationObserver(function(mutations, observer){
     for (var mutation of mutations) {
         for (var node of mutation.addedNodes){
-            if (node.nodeType != 3){
+            if (node.nodeType != 3 && node.tagName != "svg"){
                 // one of the added nodes is not a text node
                 updateWrapper();
                 return;
