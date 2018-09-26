@@ -106,7 +106,7 @@ class LinkMorpher extends Morpher {
 
         if (username != thisUser){
             var catName = getCatName(username);
-            node.textContent = catName[0] + catName[1]
+            node.textContent = catName[0] + " " + catName[1]
         }
     }
 }
