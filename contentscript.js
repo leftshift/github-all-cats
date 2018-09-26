@@ -80,6 +80,36 @@ class ImgMorpher extends Morpher {
     }
 }
 
+class LinkMorpher extends Morpher {
+    constructor() {
+        super();
+    }
+
+    selector() {
+        var selectors = [
+            "a.text-bold[data-hovercard-user-id]",
+            "a.author[data-hovercard-user-id]",
+            "ai.muted-link[data-hovercard-user-id]",
+            "a.user-mention",
+            ".Popover-message a.f5"
+        ];
+        return document.querySelectorAll(selectors.join(", "))
+    }
+
+    toCat(node) {
+        var text = node.textContent
+        if (!node.hasAttribute("data-original-text")) {
+            node.setAttribute("data-original-text", text)
+        }
+
+        var username = node.getAttribute("data-original-text").trim()
+
+        if (username != thisUser){
+            var catName = getCatName(username);
+            node.textContent = catName[0] + catName[1]
+        }
+    }
+}
 
 function obscureUserPage() {
   var details = document.querySelectorAll('.vcard-details li');
@@ -95,6 +125,7 @@ function obscureUserPage() {
 }
 
 var i = new ImgMorpher();
+var a = new LinkMorpher();
 
 function update() {
     if (!morphedOnce && !showingCatNames) {
