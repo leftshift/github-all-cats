@@ -25,10 +25,6 @@ function generateCatName(username) {
   catNames[username] = [adjective, breed];
 }
 
-chrome.runtime.sendMessage({action: "get-showingCatNames"}, function(response) {
-  showingCatNames = response.showingCatNames;
-  updateWrapper();
-});
 
 function updateList(list, filter, getUsername, getHref, shouldAt) {
   for (var i = 0; i < list.length; i++) {
@@ -71,6 +67,7 @@ function update() {
   }, function (author) {
     return author.getAttribute('href');
   });
+
   updateList(document.querySelectorAll("[data-ga-click*='target:actor']"), function (author) {
     return author.hasAttribute('href');
   }, function (author) {
@@ -78,6 +75,7 @@ function update() {
   }, function (author) {
     return author.getAttribute('href');
   });
+
   updateList(document.getElementsByClassName('user-mention'), function (mention) {
     return mention.hasAttribute('href');
   }, function (mention) {
@@ -85,6 +83,7 @@ function update() {
   }, function (mention) {
     return mention.getAttribute('href');
   }, true);
+
   updateList(document.getElementsByClassName('commit-author'), function (author) {
     return true;
   }, function (author) {
@@ -101,6 +100,7 @@ function update() {
   }, function (author) {
     return '/' + author.getAttribute('data-user-name');
   });
+
   updateList(document.querySelectorAll('.opened-by a.tooltipped.tooltipped-s'), function (author) {
     return true;
   }, function (author) {
@@ -114,6 +114,7 @@ function update() {
   }, function (author) {
     return '/' + author.getAttribute('data-user-name');
   });
+
   updateList(document.querySelectorAll('.author-name a[rel="author"], .author a[rel="author"]'), function (author) {
     return author.hasAttribute('href');
   }, function (author) {
@@ -123,11 +124,7 @@ function update() {
   });
 
   updateList(document.querySelectorAll('.avatar, .gravatar, .alert img, .user-profile-mini-avatar img, .timeline-comment-avatar'), function (image) {
-    if (image.hasAttribute('alt')) {
-      return image.getAttribute('alt');
-    } else {
-      return false;
-    };
+      return true;
   }, function (image) {
     return image.getAttribute('alt').slice(1); // remove '@'
   }, function (image) {
@@ -176,6 +173,11 @@ function updateWrapper() {
     setTimeout(updateWrapper, 1000);
   })
 }
+
+chrome.runtime.sendMessage({action: "get-showingCatNames"}, function(response) {
+  showingCatNames = response.showingCatNames;
+  updateWrapper();
+});
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
   if (message.action === 'toggle') {
