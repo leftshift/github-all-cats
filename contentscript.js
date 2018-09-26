@@ -146,7 +146,11 @@ function updateWrapper() {
 }
 
 var observer = new MutationObserver(function(mutations, observer){
-    updateWrapper();
+    for (var mutation of mutations) {
+        if (mutation.addedNodes.length > 0){
+            updateWrapper();
+        }
+    }
 });
 
 observer.observe(document, {
