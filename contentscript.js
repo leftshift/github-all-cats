@@ -200,7 +200,33 @@ class HovercardDescriptionMorpher extends DescriptionMorpher {
     }
 }
 
-class HovercardLocationMorpher extends Morpher {
+class LocationMorpher extends Morpher {
+    constructor() {
+        super();
+    }
+
+    selector(){
+        var selectors = [
+            "li[itemprop=homeLocation] span.p-label"
+        ];
+        return document.querySelectorAll(selectors.join(", "))
+    }
+
+    toCat(node){
+        var text = node.textContent
+        if (!node.hasAttribute("data-original-text")){
+            node.setAttribute("data-original-text", text);
+        }
+
+        node.textContent = " Cardboard Box";
+    }
+
+    toHuman(node){
+        node.textContent = node.getAttribute("data-original-text");
+    }
+}
+
+class HovercardLocationMorpher extends LocationMorpher {
     // The Link and Image in Hovercards is already handled by
     // ImageMorpher and LinkMorpher. This handles possible location
     constructor() {
