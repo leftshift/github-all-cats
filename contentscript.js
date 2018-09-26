@@ -271,10 +271,13 @@ function obscureUserPage() {
   }
 }
 
-var i = new ImgMorpher();
-var a = new LinkMorpher();
-var d = new HovercardDescriptionMorpher();
-var l = new HovercardLocationMorpher();
+var img = new ImgMorpher();
+var link = new LinkMorpher();
+var profileDesc = new DescriptionMorpher();
+var profileLoc = new LocationMorpher();
+var profileImg = new ProfileImgMorpher();
+var hoverDesc = new HovercardDescriptionMorpher();
+var hoverLoc = new HovercardLocationMorpher();
 
 function update() {
     if (!morphedOnce && !showingCatNames) {
