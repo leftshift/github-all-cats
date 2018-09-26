@@ -109,6 +109,10 @@ class LinkMorpher extends Morpher {
             node.textContent = catName[0] + " " + catName[1]
         }
     }
+
+    toHuman(node) {
+        node.textContent = node.getAttribute("data-original-text");
+    }
 }
 
 function obscureUserPage() {
@@ -134,6 +138,7 @@ function update() {
         morphedOnce = true;
     }
     i.morph(showingCatNames);
+    a.morph(showingCatNames);
 }
 
 function updateWrapper() {
