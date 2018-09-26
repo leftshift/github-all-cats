@@ -89,7 +89,7 @@ class LinkMorpher extends Morpher {
         var selectors = [
             "a.text-bold[data-hovercard-user-id]",
             "a.author[data-hovercard-user-id]",
-            "ai.muted-link[data-hovercard-user-id]",
+            "a.muted-link[data-hovercard-user-id]",
             "a.user-mention",
             ".Popover-message a.f5"
         ];
