@@ -114,6 +114,15 @@ function updateWrapper() {
   })
 }
 
+var observer = new MutationObserver(function(mutations, observer){
+    updateWrapper();
+});
+
+observer.observe(document, {
+    subtree: true,
+    childList: true
+})
+
 chrome.runtime.sendMessage({action: "get-showingCatNames"}, function(response) {
   showingCatNames = response.showingCatNames;
   updateWrapper();
