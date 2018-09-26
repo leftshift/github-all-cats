@@ -258,17 +258,33 @@ class HovercardLocationMorpher extends LocationMorpher {
     }
 }
 
-function obscureUserPage() {
-  var details = document.querySelectorAll('.vcard-details li');
-  for (var i = 0; i < details.length; i++) {
-    if (details[i].hasAttribute("aria-label")) {
-      if (details[i].getAttribute("aria-label") == "Home location") {
-        details[i].textContent = "Cat country";
-      } else if (details[i].getAttribute("aria-label") == "Email") {
-        details[i].textContent = "hello@meow.com";
-      }
+class ProfileUrlMorpher extends Morpher{
+    constructor() {
+        super();
     }
-  }
+
+    selector(){
+        var selectors = [
+            "li[itemprop=url] a"
+        ];
+        return document.querySelectorAll(selectors.join(", "))
+    }
+
+    toCat(node){
+        var text = node.textContent
+        if (!node.hasAttribute("data-original-url")){
+            node.setAttribute("data-original-url", node.getAttribute("href"));
+            node.setAttribute("data-original-text", text);
+        }
+
+        node.setAttribute("href", "https://www.youtube.com/watch?v=QH2-TGUlwu4");
+        node.textContent = "https://www.youtube.com/watch?v=QH2-TGUlwu4";
+    }
+
+    toHuman(node){
+        node.setAttribute("href", node.getAttribute("data-original-url"));
+        node.textContent = node.getAttribute("data-original-text");
+    }
 }
 
 var img = new ImgMorpher();
@@ -276,6 +292,7 @@ var link = new LinkMorpher();
 var profileDesc = new DescriptionMorpher();
 var profileLoc = new LocationMorpher();
 var profileImg = new ProfileImgMorpher();
+var profileUrl = new ProfileUrlMorpher();
 var hoverDesc = new HovercardDescriptionMorpher();
 var hoverLoc = new HovercardLocationMorpher();
 
@@ -285,18 +302,23 @@ function update() {
     } else {
         morphedOnce = true;
     }
-    i.morph(showingCatNames);
-    a.morph(showingCatNames);
-    d.morph(showingCatNames);
-    l.morph(showingCatNames);
+    img.morph(showingCatNames);
+    link.morph(showingCatNames);
+    hoverDesc.morph(showingCatNames);
+    hoverLoc.morph(showingCatNames);
+    if (getMetaContents('og:type') == "profile") { // Special handeling for user profiles
+        profileDesc.morph(showingCatNames);
+        profileLoc.morph(showingCatNames);
+        profileImg.morph(showingCatNames);
+        profileUrl.morph(showingCatNames);
+    }
 }
 
 function updateWrapper() {
-  chrome.storage.local.get('catNames', function (item) {
+    chrome.storage.local.get('catNames', function (item) {
     catNames = item.catNames || {};
     update();
     chrome.storage.local.set({'catNames': catNames})
-    // setTimeout(updateWrapper, 1000);
   })
 }
 
