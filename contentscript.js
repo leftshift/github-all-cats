@@ -100,6 +100,23 @@ class ImgMorpher extends Morpher {
     }
 }
 
+class ProfileImgMorpher extends ImgMorpher {
+    constructor() {
+        super();
+    }
+
+    selector() {
+        var selectors = [
+            "a[itemprop=image] img.avatar"
+        ];
+        return document.querySelectorAll(selectors.join(", "))
+    }
+
+    getUsername(node){
+        return getMetaContents("profile:username");
+    }
+}
+
 class LinkMorpher extends Morpher {
     constructor() {
         super();
