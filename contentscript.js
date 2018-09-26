@@ -52,7 +52,7 @@ class ImgMorpher extends Morpher {
     }
 
     selector(){
-        return document.querySelectorAll("img.avatar[alt], .avatar img[alt] .user-profile-mini-avatar img[alt]");
+        return document.querySelectorAll("img.avatar[alt], .avatar img[alt], .user-profile-mini-avatar img[alt]");
     }
 
     toCat(node) {
