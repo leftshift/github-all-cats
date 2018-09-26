@@ -70,12 +70,16 @@ class ImgMorpher extends Morpher {
         return document.querySelectorAll(selectors.join(", "))
     }
 
+    getUsername(node) {
+        return node.getAttribute('data-original-alt');
+    }
+
     toCat(node) {
         if ( !node.hasAttribute('data-original-src') ) {
             node.setAttribute('data-original-src', node.getAttribute('src'));
             node.setAttribute('data-original-alt', node.getAttribute('alt'));
         }
-        var username = node.getAttribute('data-original-alt');
+        var username = this.getUsername(node);
         if (username[0] === "@"){
             username = username.slice(1);
         }
