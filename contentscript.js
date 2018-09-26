@@ -70,6 +70,11 @@ class ImgMorpher extends Morpher {
             node.setAttribute('alt', '@' + catName[1]);
         }
     }
+
+    toHuman(node) {
+        node.setAttribute('src', node.getAttribute('data-original-src'));
+        node.setAttribute('alt', node.getAttribute('data-original-alt'));
+    }
 }
 
 
