@@ -155,8 +155,7 @@ class HovercardDescriptionMorpher extends Morpher {
     }
 
     toHuman(node){
-        // node.textContent = node.getAttribute("data-original-text");
-        return
+        return;
     }
 }
 
@@ -184,7 +183,7 @@ class HovercardLocationMorpher extends Morpher {
     }
 
     toHuman(node){
-        node.textContent = node.getAttribute("data-original-text");
+        return;
     }
 }
 
@@ -214,6 +213,8 @@ function update() {
     }
     i.morph(showingCatNames);
     a.morph(showingCatNames);
+    d.morph(showingCatNames);
+    l.morph(showingCatNames);
 }
 
 function updateWrapper() {
