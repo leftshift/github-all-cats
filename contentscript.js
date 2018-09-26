@@ -30,6 +30,12 @@ function getCatName(username) {
   return [adjective, breed]
 }
 
+function getDescription(){
+    var t = "meow ";
+    var n = Math.floor(Math.random() * 6);
+    return t.repeat(n);
+}
+
 class Morpher {
     constructor() {}
     selector(){}
@@ -115,6 +121,34 @@ class LinkMorpher extends Morpher {
     }
 }
 
+class HovercardDescriptionMorpher extends Morpher {
+    // The Link and Image in Hovercards is already handled by
+    // ImageMorpher and LinkMorpher. This handles possible additional info
+    constructor() {
+        super();
+    }
+
+    selector(){
+        var selectors = [
+            ".Popover-message .ml-3 .mt-1 div"
+        ];
+        return document.querySelectorAll(selectors.join(", "))
+    }
+
+    toCat(node){
+        var text = node.textContent
+        if (!node.hasAttribute("data-original-text")){
+            node.setAttribute("data-original-text", text);
+        }
+
+        node.textContent = getDescription();
+    }
+
+    toHuman(node){
+        // node.textContent = node.getAttribute("data-original-text");
+        return
+    }
+}
 function obscureUserPage() {
   var details = document.querySelectorAll('.vcard-details li');
   for (var i = 0; i < details.length; i++) {
