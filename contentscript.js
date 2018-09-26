@@ -29,132 +29,44 @@ function getCatName(username) {
   return [adjective, breed]
 }
 
-
-function updateList(list, filter, getUsername, getHref, shouldAt) {
-  for (var i = 0; i < list.length; i++) {
-    if (filter(list[i])) {
-      var username = getUsername(list[i]);
-      if (username == thisUser) { // don't make the logged in user a cat
-        continue;
-      }
-      generateCatName(username);
-      var node = list[i]
-
-      if(node.tagName.toUpperCase() === "IMG") {
-        if (showingCatNames) {
-          if ( !node.hasAttribute('data-original-src')) {
-            node.setAttribute('data-original-src', node.getAttribute('src')) // store url for profile picture
-          }
-          node.setAttribute('src', chrome.extension.getURL('img/' + catNames[username][1] + ".jpg")) // replace with picure of cat
-        } else {
-          if (node.hasAttribute('data-original-src')) { // this is false if the picture hasn't been replaced before
-            node.setAttribute('src', node.getAttribute('data-original-src')) // restore original profile picture
-          }
-        }
-      } else {
-        if (showingCatNames) {
-          node.textContent = (shouldAt && catNames[username][0] === username ? '@' : '') + catNames[username].join(' ');
-        } else {
-          node.textContent = (shouldAt ? '@' : '') + username;
-        }
-      }
-
-
+class Morpher {
+    constructor() {}
+    selector(){}
+    morph(showingCats) {
+        for (var item of this.selector()){
+            if (showingCats === true) {
+                this.toCat(item);
+            } else {
+                this.toHuman(item);
+            }
+        };
     }
-  }
+    toCat(node) {};
+    toHuman(node) {};
 }
-function update() {
-  updateList(document.getElementsByClassName('author'), function (author) {
-    return author.hasAttribute('href');
-  }, function (author) {
-    return /\/([^\/]+)$/.exec(author.getAttribute('href'))[1];
-  }, function (author) {
-    return author.getAttribute('href');
-  });
 
-  updateList(document.querySelectorAll("[data-ga-click*='target:actor']"), function (author) {
-    return author.hasAttribute('href');
-  }, function (author) {
-    return /\/([^\/]+)$/.exec(author.getAttribute('href'))[1];
-  }, function (author) {
-    return author.getAttribute('href');
-  });
-
-  updateList(document.getElementsByClassName('user-mention'), function (mention) {
-    return mention.hasAttribute('href');
-  }, function (mention) {
-    return /\/([^\/]+)$/.exec(mention.getAttribute('href'))[1];
-  }, function (mention) {
-    return mention.getAttribute('href');
-  }, true);
-
-  updateList(document.getElementsByClassName('commit-author'), function (author) {
-    return true;
-  }, function (author) {
-    if (author.hasAttribute('data-user-name')) {
-      return author.getAttribute('data-user-name');
-    } else {
-      var username = author.textContent;
-      if (username.indexOf('author=') !== -1) {
-        username = username.split('author=').pop();
-      }
-      author.setAttribute('data-user-name', username);
-      return username;
+class ImgMorpher extends Morpher {
+    constructor() {
+        super();
     }
-  }, function (author) {
-    return '/' + author.getAttribute('data-user-name');
-  });
 
-  updateList(document.querySelectorAll('.opened-by a.tooltipped.tooltipped-s'), function (author) {
-    return true;
-  }, function (author) {
-    if (author.hasAttribute('data-user-name')) {
-      return author.getAttribute('data-user-name');
-    } else {
-      var username = author.textContent;
-      author.setAttribute('data-user-name', username);
-      return username;
+    selector(){
+        return document.querySelectorAll("img.avatar[alt], .avatar img[alt] .user-profile-mini-avatar img[alt]");
     }
-  }, function (author) {
-    return '/' + author.getAttribute('data-user-name');
-  });
 
-  updateList(document.querySelectorAll('.author-name a[rel="author"], .author a[rel="author"]'), function (author) {
-    return author.hasAttribute('href');
-  }, function (author) {
-    return /\/([^\/]+)$/.exec(author.getAttribute('href'))[1];
-  }, function (author) {
-    return author.getAttribute('href');
-  });
-
-  updateList(document.querySelectorAll('.avatar, .gravatar, .alert img, .user-profile-mini-avatar img, .timeline-comment-avatar'), function (image) {
-      return true;
-  }, function (image) {
-    return image.getAttribute('alt').slice(1); // remove '@'
-  }, function (image) {
-    return null;
-  });
-
-  updateList(document.querySelectorAll('.vcard-username, .vcard-fullname, .js-user-profile-following-mini-toggle strong'), function (user) {
-    return true;
-  }, function (user) {
-    return getMetaContents('profile:username');
-  }, function (user) {
-    return null;
-  });
-
-  updateList(document.querySelectorAll('.vcard-avatar img'), function (a) {
-    return true;
-  }, function (a) {
-    return getMetaContents('profile:username');
-  }, function (a) {
-    return null;
-  })
-
-  if (getMetaContents('og:type') == "profile") { // Special handeling for user profiles
-    obscureUserPage();
-  }
+    toCat(node) {
+        if ( !node.hasAttribute('data-original-src') ) {
+            node.setAttribute('data-original-src', node.getAttribute('src'));
+            node.setAttribute('data-original-alt', node.getAttribute('alt'));
+        }
+        var username = node.getAttribute('data-original-alt');
+        if (username != thisUser){
+            var resource = 'img/' + getCatName(username)[1] + '.jpg'
+            node.setAttribute('src', chrome.extension.getURL(resource));
+        }
+    }
 }
+
 
 function obscureUserPage() {
   var details = document.querySelectorAll('.vcard-details li');
@@ -167,6 +79,12 @@ function obscureUserPage() {
       }
     }
   }
+}
+
+var i = new ImgMorpher();
+
+function update() {
+   i.morph(showingCatNames);
 }
 
 function updateWrapper() {
