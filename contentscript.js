@@ -6,6 +6,7 @@ var catNames = {
 };
 
 var thisUser = getMetaContents('user-login');
+var morphedOnce = false;
 
 function getMetaContents(name){
     var m = document.getElementsByTagName('meta');
@@ -94,7 +95,12 @@ function obscureUserPage() {
 var i = new ImgMorpher();
 
 function update() {
-   i.morph(showingCatNames);
+    if (!morphedOnce && !showingCatNames) {
+        return
+    } else {
+        morphedOnce = true;
+    }
+    i.morph(showingCatNames);
 }
 
 function updateWrapper() {
