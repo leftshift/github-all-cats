@@ -6,7 +6,7 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "version": "1.0.0",
+  "version": "2.0.0",
   "permissions": [
     "activeTab",
     "tabs", "https://github.com/*",
