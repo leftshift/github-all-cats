@@ -60,9 +60,14 @@ class ImgMorpher extends Morpher {
             node.setAttribute('data-original-alt', node.getAttribute('alt'));
         }
         var username = node.getAttribute('data-original-alt');
+        if (username[0] === "@"){
+            username = username.slice(1);
+        }
         if (username != thisUser){
-            var resource = 'img/' + getCatName(username)[1] + '.jpg'
+            var catName = getCatName(username);
+            var resource = 'img/' + catName[1] + '.jpg';
             node.setAttribute('src', chrome.extension.getURL(resource));
+            node.setAttribute('alt', '@' + catName[1]);
         }
     }
 }
@@ -92,7 +97,7 @@ function updateWrapper() {
     catNames = item.catNames || {};
     update();
     chrome.storage.local.set({'catNames': catNames})
-    setTimeout(updateWrapper, 1000);
+    // setTimeout(updateWrapper, 1000);
   })
 }
 
