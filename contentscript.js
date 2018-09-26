@@ -147,8 +147,12 @@ function updateWrapper() {
 
 var observer = new MutationObserver(function(mutations, observer){
     for (var mutation of mutations) {
-        if (mutation.addedNodes.length > 0){
-            updateWrapper();
+        for (var node of mutation.addedNodes){
+            if (node.nodeType != 3){
+                // one of the added nodes is not a text node
+                updateWrapper();
+                return;
+            }
         }
     }
 });
